@@ -26,22 +26,30 @@
     AOS.init();
   </script>
 <style>
+ 
+ /* Style for each seat information row */
+#selected-seats > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
 
-        .seat-label {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .seat-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 62px;
+/* Style for the text alignment within each row */
+#selected-seats > div p {
+    text-align: center;
+    margin: 0;
+}
 
-        }
-        .seat-available {
-            border-radius: 12px;
-            background-color: #F7F8F8;
-        }
+/* Adjust padding and margins if needed */
+#selected-seats > div p:first-child {
+    text-align: left; /* Seat label aligned to the left */
+}
+
+#selected-seats > div p:last-child {
+    text-align: right; /* Price aligned to the right */
+}
    
 .font-raleway{
             font-family: "Raleway", sans-serif;
@@ -51,7 +59,7 @@
           font-family: "Inter", sans-serif;
         }
 
-  /* Custom styling for the rounded ticket cutout effect */
+  
   .ticket::before, .ticket::after {
     content: '';
     display: block;
@@ -72,17 +80,21 @@
     transform: translateX(-50%);
   }
 
-  /* Divider takes full height between curves */
+  
   .divider {
     height: 100%; /* Full height */
   }
 
-  /* Ensure the divider is centered with even space on both sides */
+  
   .content {
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 100%;
+  }
+
+  html{
+    scroll-behavior: smooth;
   }
 </style>
 
@@ -154,7 +166,7 @@
                   <p class="mb-8 font-normal ">
                       Yes, you can run unit tests and view the results directly within the app. <br> The integrated testing features allow for a streamlined .
                   </p>
-                  <button class="btn- bg-[#1DD100] text-black md:px-5 md:py-3 px-3 py-2 rounded-xl md:text-2xl font-bold">Buy Tickets</button>
+                  <button class="btn- bg-[#1DD100] text-black md:px-5 md:py-3 px-3 py-2 rounded-xl md:text-2xl font-bold" onclick="clicked()">Buy Tickets</button>
                 </div>
               </div>
             </div>
@@ -214,7 +226,7 @@
                       <!-- White Dotted Divider with Full Height -->
                       <div class="border-l-2 border-dotted border-white h-full divider ml-2"></div> <!-- Reduced margin further -->
                       <div>
-                          <span class="font-mono text-lg font-semibold">NEW15</span>
+                          <span class="font-mono text-lg font-semibold" id="">NEW15</span>
                           <p class="text-right text-sm text-gray-700">use by January 2024</p>
                       </div>
                   </div>
@@ -265,7 +277,7 @@
                       </div>
                       <div class="flex items-center mt-2 md:mt-0 bg-[#1DD10026] text-[#1DD100] md:p-4 rounded-xl">
                             <img src="images/seat-green.png" alt="">
-                            <h4 class="font-medium">40 seat left</h4>
+                            <h4 id="seats-left-display" class="font-medium">40 seat left</h4>
                       </div>
                   </div>
           
@@ -306,8 +318,8 @@
                   <!-- Icon (can replace with image if needed) -->
                     <img src="images/fare.png" alt="">
                   <!-- Price -->
-                  <p class="text-3xl font-semibold text-green-600 mt-2">550 Taka</p>
-                  <p class="text-2xl text-gray-500 font-semibold">Per Seat</p>
+                  <p  class="text-3xl font-semibold text-green-600 mt-2">550 Taka</p>
+                  <p  class="text-2xl text-gray-500 font-semibold">Per Seat</p>
               </div>
           </div>
           
@@ -316,151 +328,160 @@
             
            </section>
 
+           <section id="seat-area">
 
-           <div class="max-w-5xl mx-auto py-10">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Seat Selection Panel -->
-                <div class="bg-white p-6 rounded-lg shadow" data-aos="fade-right">
-                    <h2 class="text-2xl font-bold mb-6 border-b-2 border-dashed ">Select Your Seat</h2>
+            <div class="max-w-5xl mx-auto py-10">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <!-- Seat Selection Panel -->
+                  <div class="bg-white p-6 rounded-lg shadow">
+                      <h2 class="text-2xl font-bold mb-6 border-b-2 border-dashed ">Select Your Seat</h2>
+                      
                     
-                    <!-- Legend -->
-                    <div class="flex justify-between border-b-2 border-dashed">
-                       
-                            <div class="flex  mb-3">
-                            <img src="images/seat-gray.png" alt=""> 
-                             <span class="ml-2 ">Available</span>
-                            </div>
-
-                        <div class="flex">
-                           <img src="images/seat-green-filled.png" alt="" class=" w-[28px] md:h-[28px]">
-                            <span class="ml-2">Selected</span>
-                        </div>
-                    </div>
-                    <div class="flex justify-end mt-10 mb-6 ">
-                      <img src="images/tabler-icon-steering-wheel.png" alt="" class="bg-[#0307121A] p-3 rounded-xl">
-                    </div>
-    
-                    <!-- Seat Layout with alignment fix -->
-                    <div class="flex">
-                        <!-- Column for Row Labels -->
-                        <div class="seat-label mr-4">
-                            <span class="mt-2">A</span>
-                            <span>B</span>
-                            <span>C</span>
-                            <span>D</span>
-                            <span>E</span>
-                            <span>F</span>
-                            <span>G</span>
-                            <span>H</span>
-                            <span>I</span>
-                            <span>J</span>
-                        </div>
-    
-                        <!-- Seat Grid -->
-                        <div class="seat-grid">
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">A1</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">A2</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">A3</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">A4</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">B1</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">B2</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">B3</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">B4</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">C1</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">C2</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">C3</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">C4</button>
-                            <button class="btn bg-green-500 text-white">D1</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">D2</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">D3</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">D4</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">E1</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">E2</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">E3</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">E4</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">F1</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">F2</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">F3</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">F4</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">G1</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">G2</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">G3</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">G4</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">H1</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">H2</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">H3</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">H4</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">I1</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">I2</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">I3</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">I4</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">J1</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">J2</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">J3</button>
-                            <button class="btn w-[100px] rounded-xl bg-[#f7f8f8]">J4</button>
-                        </div>
-                    </div>
-                </div>
+                      <div class="flex justify-between border-b-2 border-dashed">
+                         
+                              <div class="flex  mb-3">
+                              <img src="images/seat-gray.png" alt=""> 
+                               <span class="ml-2 ">Available</span>
+                              </div>
   
-                <!-- Right Panel -->
-                <div class="bg-white p-6 rounded-lg shadow" data-aos="fade-left">
-                    <h2 class="text-2xl font-bold mb-6">Selected Seats</h2>
-                    <div>
-                        <table class="table w-full mb-4">
-                            <thead>
-                                <tr class="text-base font-medium text-black">
-                                    <th>Seat</th>
-                                    <th>Class</th>
-                                    <th>Price</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="text-base font-medium">
-                                    <td>C2</td>
-                                    <td>Economy</td>
-                                    <td>550</td>
-                                </tr>
-                                <tr class="text-base font-medium">
-                                    <td>D3</td>
-                                    <td>Economy</td>
-                                    <td>550</td>
-                                </tr>
-                            </tbody>
-                        </table>
-    
-                        <div class="flex justify-between mb-4 text-base font-medium">
-                            <span>Total Price:</span>
-                            <span>BDT 1100</span>
-                        </div>
-    
-                        <div class="mb-4">
-                            <input type="text" placeholder="Have any coupon?" class="input input-bordered w-full">
-                            <button class="btn bg-[#1DD100] mt-2 w-full text-white">Apply</button>
-                        </div>
-    
-                        <div>
-                        <h3 class="font-semibold font-Inter mb-2">Passenger Name*</h3>
-                            <input type="text" placeholder="Passenger Name" class="input input-bordered w-full mb-4">
-                            <h3 class="font-semibold font-Inter mb-2">Phone Number*</h3>
-                            <input type="text" placeholder="Phone Number" class="input input-bordered w-full mb-4">
-                            <h3 class="font-semibold font-Inter mb-2">Email ID</h3>
-                            <input type="email" placeholder="Email ID" class="input input-bordered w-full mb-4">
-                        </div>
-    
-                        <button class="btn bg-[#1DD100] w-full text-white mb-5">Next</button>
-                        <div class="ml-10">
-                          <a href="" class="mr-10 font-normal">Terms and Conditions</a>
-                        <a href="" class="font-normal">Cancellation Policy</a>
-                        </div>
-                    </div>
-                </div>
+                          <div class="flex">
+                             <img src="images/seat-green-filled.png" alt="" class=" w-[28px] md:h-[28px]">
+                              <span class="ml-2">Selected</span>
+                          </div>
+                      </div>
+                      <div class="flex justify-end mt-10 mb-6 ">
+                        <img src="images/tabler-icon-steering-wheel.png" alt="" class="bg-[#0307121A] p-3 rounded-xl">
+                      </div>
+      
+                      
+                           <!-- seat -->
+          <div class="flex items-center justify-center">
+            <div id="btn-container"
+              class="seat-section grid grid-cols-5 gap-y-9 gap-x-5 bg-base-200 rounded-lg text-[#03071280] bg-[#fff] text-lg">
+              <!-- Row A -->
+              <div class="flex items-center justify-center font-bold">A</div> <!-- Row label -->
+              <button class="btn seat-btn text-[#03071280]">A1</button>
+              <button class="btn seat-btn text-[#03071280]">A2</button>
+              <button class="btn seat-btn text-[#03071280]">A3</button>
+              <button class="btn seat-btn text-[#03071280]">A4</button>
+              <!-- Row B -->
+              <div class="flex items-center justify-center font-bold">B</div> <!-- Row label -->
+              <button class="btn seat-btn text-[#03071280]">B1</button>
+              <button class="btn seat-btn text-[#03071280]">B2</button>
+              <button class="btn seat-btn text-[#03071280]">B3</button>
+              <button class="btn seat-btn text-[#03071280]">B4</button>
+              <!-- Row C -->
+              <div class="flex items-center justify-center font-bold">C</div> <!-- Row label -->
+              <button class="btn seat-btn text-[#03071280]">C1</button>
+              <button class="btn seat-btn text-[#03071280]">C2</button>
+              <button class="btn seat-btn text-[#03071280]">C3</button>
+              <button class="btn seat-btn text-[#03071280]">C4</button>
+              <!-- Row D -->
+              <div class="flex items-center justify-center font-bold">D</div> <!-- Row label -->
+              <button class="btn seat-btn text-[#03071280]">D1</button>
+              <button class="btn seat-btn text-[#03071280]">D2</button>
+              <button class="btn seat-btn text-[#03071280]">D3</button> <!-- Selected -->
+              <button class="btn seat-btn text-[#03071280]">D4</button>
+              <!-- Row E -->
+              <div class="flex items-center justify-center font-bold">E</div> <!-- Row label -->
+              <button class="btn seat-btn text-[#03071280]">E1</button> <!-- Selected -->
+              <button class="btn seat-btn text-[#03071280]">E2</button>
+              <button class="btn seat-btn text-[#03071280]">E3</button>
+              <button class="btn seat-btn text-[#03071280]">E4</button>
+              <!-- Row F -->
+              <div class="flex items-center justify-center font-bold">F</div> <!-- Row label -->
+              <button class="btn seat-btn text-[#03071280]">F1</button>
+              <button class="btn seat-btn text-[#03071280]">F2</button>
+              <button class="btn seat-btn text-[#03071280]">F3</button>
+              <button class="btn seat-btn text-[#03071280]">F4</button>
+              <!-- Row G -->
+              <div class="flex items-center justify-center font-bold">G</div> <!-- Row label -->
+              <button class="btn seat-btn text-[#03071280]">G1</button>
+              <button class="btn seat-btn text-[#03071280]">G2</button> <!-- Selected -->
+              <button class="btn seat-btn text-[#03071280]">G3</button>
+              <button class="btn seat-btn text-[#03071280]">G4</button>
+              <!-- Row H -->
+              <div class="flex items-center justify-center font-bold">H</div> <!-- Row label -->
+              <button class="btn seat-btn text-[#03071280]">H1</button>
+              <button class="btn seat-btn text-[#03071280]">H2</button>
+              <button class="btn seat-btn text-[#03071280]">H3</button>
+              <button class="btn seat-btn text-[#03071280]">H4</button>
+              <!-- Row I -->
+              <div class="flex items-center justify-center font-bold">I</div> <!-- Row label -->
+              <button class="btn seat-btn text-[#03071280]">I1</button>
+              <button class="btn seat-btn text-[#03071280]">I2</button>
+              <button class="btn seat-btn text-[#03071280]">I3</button>
+              <button class="btn seat-btn text-[#03071280]">I4</button>
+              <!-- Row J -->
+              <div class="flex items-center justify-center font-bold">J</div> <!-- Row label -->
+              <button class="btn seat-btn text-[#03071280]">J1</button>
+              <button class="btn seat-btn text-[#03071280]">J2</button>
+              <button class="btn seat-btn text-[#03071280]">J3</button>
+              <button class="btn seat-btn text-[#03071280]">J4</button>
             </div>
+          </div>
         </div>
-          <!-- ph paribahan -->
+      
+        <div class=" flex flex-col items-center justify-start">
+          <div class="">
+            <p class="text-2xl font-semibold raleway-font mb-6">Select Your Seat</p>
+            <hr class="border-dashed h-[1px] w-full lg:w-[480px] bg-[#03071233]">
+          </div>
+          <div class="p-5 bg-[#F7F8F8] mt-6 rounded-xl">
+            <div class="flex items-center justify-between text-base font-medium font-Inter mb-4">
+              <p>Seat <span>2</span></p>
+              <p class="mr-8">Class</p>
+              <p>Price</p>
+            </div>
+            <div id="selected-seats">
+             <!-- javascropt will handle this   -->
+            </div>
+            <hr class="border-dashed h-[1px] w-full bg-[#03071233]">
+            <div class="flex items-center justify-between text-base font-medium font-Inter mt-3 mb-4">  
+              <p>Total Price</p>
+              <p>BDT <span id="total-price">00</span></p>
+            </div>
+            <div class="flex items-center gap-3">
+              <input id="couponInput" type="text" class="pl-5 w-[369px] h-[56px] rounded-xl" placeholder="Have any copupon">
+              <button id="applyButton" class="btn bg-[#1DD100] text-white hover:bg-transparent hover:text-black" disabled>Apply</button>
+            </div>
+            <div class="flex items-center justify-between text-base font-medium font-Inter mt-6 mb-4">  
+              <p>Grand Total</p>
+              <p>BDT <span id="after-discount">000</span></p>
+            </div>              
+          </div>
+          <div class="mt-6 flex-flex-col items-center justify-center">
+            <div>
+              <p class="text-[#030712] text-base font-semibold inter- mb-4">Passenger Name*</p>
+              <input class="text-[#03071266] pl-6 border w-[433px] h-[64px] rounded-3xl" type="text" placeholder="Enter your name">
+            </div>
+            <div class="my-3">
+              <p class="text-[#030712] text-base font-semibold font-Inter- mb-4">Phone Number*</p>
+              <input class="text-[#03071266] pl-6 border w-[433px] h-[64px] rounded-3xl" type="text" placeholder="Enter your phone number">
+            </div>
+            <div>
+              <p class="text-[#030712] text-base font-semibold font-Inter- mb-4">Email ID</p>
+              <input class="text-[#03071266] pl-6 border w-[433px] h-[64px] rounded-3xl" type="text" placeholder="Enter your email id">
+            </div>
+            <div class="mt-10">
+              <a><button  class="btn bg-[#1DD100] text-white w-full hover:bg-transparent hover:text-black" id="next-btn" onclick="nextBtn()">Next</button></a>
+            </div>
+            <div class="flex justify-between mt-8">
+              <a href="#" class="text-[#03071299] text-base font-normal font-Inter ">Terms and Conditions</a>
+              <a href="#" class="text-[#03071299] text-base font-normal font-Inter ">Cancellation Policy</a>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+        
 
 
         </main>
     <!-- main -->
+
+
+   
 
     <!-- footer -->
     <footer class="footer bg-black text-neutral-content md:px-32 md:py-20 px-20 py-10 text-white">
@@ -487,14 +508,18 @@
           </div>
       </nav>
     </footer>
+
+    
     <!-- footer -->
 
-
+      
 
   <script>
     AOS.init({
       duration:1200
     })
   </script>
+  <script src="script/utilities.js"></script>
+  <script src="script/index.js"></script>
 </body>
 </html>

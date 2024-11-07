@@ -2,8 +2,6 @@
 const totalPriceElement = document.getElementById('total-price');
 let seatsLeft = 40;
 let selectSeatsCount = 0;
-const seatLeftDisplay = document.getElementById('seats-left-display');
-seatLeftDisplay.innerText = seatsLeft + ' seats left';
 const seatDetailsContainer = document.getElementById('selected-seats');
 const totalPriceDisplay = document.getElementById('total-price');
 const afterDiscountTotalDisplay = document.getElementById('after-discount');
@@ -11,6 +9,10 @@ const seatPrice = 550;
 let totalPrice = 0;
 const couponInput = document.getElementById('couponInput');
 const applyButton = document.getElementById('applyButton');
+
+const seatLeftDisplay = document.getElementById('seats-left-display');
+seatLeftDisplay.innerText = seatsLeft + ' seats left';
+
 
 
 
